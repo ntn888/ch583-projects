@@ -1,0 +1,6 @@
+RESET and Debug Pins not enabled from factory
+
+To enable debug use wchisp and `wchisp config enable-debug`.
+
+To reset the chip using debugger: `wlink reset`.
+
