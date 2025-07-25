@@ -27,13 +27,20 @@ NEWLIB?=/usr/include/newlib #debian
 ######################################
 # C sources
 C_SOURCES = \
-src/peripheral_main.c \
-src/peripheral.c \
-src/app_uart.c \
-src/ble_uart_service/ble_uart_service_16bit.c \
-src/app_drv_fifo/app_drv_fifo.c \
-Profile/devinfoservice.c \
-Profile/gattprofile.c \
+src/app_main.c \
+src/lwns_adapter_csma_mac.c \
+src/lwns_adapter_blemesh_mac.c \
+src/lwns_adapter_no_mac.c \
+src/lwns_sec.c \
+src/lwns_broadcast_example.c \
+src/lwns_ruc_example.c \
+src/lwns_rucft_example.c \
+src/lwns_unicast_example.c \
+src/lwns_multicast_example.c \
+src/lwns_netflood_example.c \
+src/lwns_uninetflood_example.c \
+src/lwns_multinetflood_example.c \
+src/lwns_mesh_example.c \
 ../../ble-lib/HAL/KEY.c \
 ../../ble-lib/HAL/LED.c \
 ../../ble-lib/HAL/MCU.c \
@@ -113,12 +120,9 @@ C_INCLUDES =  \
 -I$(NEWLIB) \
 -I../../vendor/StdPeriphDriver/inc \
 -I../../vendor/RVMSIS \
--I../../vendor/Core \
 -I../../ble-lib/HAL/include \
 -I../../ble-lib/LIB \
--IProfile/include \
--Isrc/app_drv_fifo \
--Isrc/ble_uart_service \
+-I../../ble-lib/LWNS \
 -Isrc/include
 
 # compile gcc flags
@@ -142,7 +146,7 @@ CFLAGS += -MMD -MP -MF"$(@:%.o=%.d)"
 LDSCRIPT = ../../vendor/Ld/Link.ld 
 
 # libraries
-LIBS = -lc -lm -lnosys ../../vendor/StdPeriphDriver/libISP583.a ../../ble-lib/LIB/LIBCH58xBLE.a
+LIBS = -lc -lm -lnosys ../../vendor/StdPeriphDriver/libISP583.a ../../ble-lib/LIB/LIBCH58xBLE.a ../../ble-lib/LWNS/LIBWCHLWNS.a
 LIBDIR = 
 LDFLAGS = $(MCU) -mno-save-restore -fmessage-length=0 -fsigned-char -ffunction-sections -fdata-sections -Wunused -Wuninitialized -T $(LDSCRIPT) -nostartfiles -Xlinker --gc-sections -Wl,-Map=$(BUILD_DIR)/$(TARGET).map --specs=nano.specs $(LIBS)
 
