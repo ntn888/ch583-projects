@@ -20,6 +20,8 @@ OPT = -Os
 # Build path
 BUILD_DIR = build
 
+NEWLIB?=/usr/include/newlib #debian
+
 ######################################
 # source
 ######################################
@@ -61,7 +63,10 @@ ASM_SOURCES =  \
 # binaries
 #######################################
 #PREFIX = riscv-none-elf-
-PREFIX = riscv64-elf-
+#PREFIX = riscv64-elf-
+#debian
+#PREFIX = riscv64-unknown-elf-
+PREFIX = riscv-wch-elf-
 
 CC = $(PREFIX)gcc
 AS = $(PREFIX)gcc -x assembler-with-cpp
@@ -94,10 +99,11 @@ AS_INCLUDES =
 
 # C includes
 C_INCLUDES =  \
+-I$(NEWLIB) \
 -I../../vendor/StdPeriphDriver/inc \
 -I../../vendor/RVMSIS \
 -I../../vendor/Core \
--Isrc
+-Isrc/include
 
 # compile gcc flags
 ASFLAGS = $(MCU) $(AS_INCLUDES) $(OPT) -Wall -fdata-sections -ffunction-sections
