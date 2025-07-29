@@ -1,0 +1,26 @@
+
+// TMR1/PWM1/CAP1: PA10 (active low)
+
+#include "CH58x_common.h"
+
+#define PWM_FREQ  1000
+#define PWM_PRD   FREQ_SYS/PWM_FREQ
+#define PWM_DUTY  0.20
+
+int main()
+{
+  SetSysClock(CLK_SOURCE_PLL_60MHz);
+  
+  GPIOA_SetBits(GPIO_Pin_10); // PWM OUT
+  GPIOA_ModeCfg(GPIO_Pin_10, GPIO_ModeOut_PP_5mA);
+  
+  TMR1_PWMInit(Low_Level, PWM_Times_1); // Note: PWMX_PolarTypeDef defined in CH58x_pwm.h
+                      // Need to init before setting PWMCycleCfg & PWMActDataWidth
+  TMR1_PWMCycleCfg(PWM_PRD);
+  TMR1_PWMActDataWidth(PWM_PRD*PWM_DUTY); // MAX value: TMR1_PWMCycleCfg above (for 100%)
+  TMR1_PWMEnable(); // enables output pin, configured above
+  TMR1_Enable();
+  
+  while (1);
+  
+}
